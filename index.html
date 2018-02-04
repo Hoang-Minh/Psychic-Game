@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Psychic Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+</head>
+<body>
+    <h1>The Psychic Game</h1>
+    <p>Guess what letter I'm thinking off</p>
+    <p>Wins: <span id="win"></span> </p>
+    <p>Losses: <span id="loss"></span> </p>
+    <p>Guesses left: <span id="guessesLeft"></span> </p>
+    <p>Your guesses so far: <span id="userGuesses"></span> </p>    
+
+    <script>
+        // array letters that are used in the game
+        var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        
+        // default value for game stats
+        var win = 0;
+        var loss = 0;
+        resetStats();
+        displayGameStats();
+        var computerGuess = letters[Math.floor(Math.random() * letters.length)];        
+
+        document.onkeyup = function(event) {
+            var guess = event.key;            
+            // decrease the number of guesses by1
+            guessesLeft--;
+
+            if(guess.toUpperCase() === computerGuess) { // match key
+                // increase number of win by 1
+                win++;                
+                resetStats();
+                displayGameStats();
+                // have the computer re-guess
+                computerGuess = letters[Math.floor(Math.random() * letters.length)];                
+            } // not match
+            else {
+                
+
+                if(guessesLeft === 0) { // no more guesses allowed
+                    // increase loss by one
+                    loss++;
+                    resetStats();
+                }
+                else {
+                    userGuesses.unshift(guess);
+                }                
+                displayGameStats();
+            }
+        }
+
+        // reset stats - only reset number of guesses and user guess
+        // DO NOT RESET NUMBER OF WINS AND LOSSES
+        function resetStats() {
+            guessesLeft = 9;
+            userGuesses = [];
+        }
+
+        // display stats
+        function displayGameStats() {
+            document.getElementById("win").innerHTML = win;
+            document.getElementById("loss").innerHTML = loss;
+            document.getElementById("guessesLeft").innerHTML = guessesLeft;
+            document.getElementById("userGuesses").innerHTML = userGuesses;
+        }        
+
+    </script>
+    
+
+</body>
+</html>
